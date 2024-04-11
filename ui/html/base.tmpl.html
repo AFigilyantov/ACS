@@ -1,0 +1,26 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{template "title" .}} - Турнир 🥋</title>
+    <link rel='stylesheet' href='/static/css/main.css'>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon.ico">
+</head>
+<body>
+    <header>
+        <h1><a href="/">На главную</a></h1>
+    </header>
+    {{template "nav" .}}
+    <main>
+       {{template "main" .}}
+    </main>
+
+    <footer> 
+        Powered by <a href="http://medved59.ru/">Томики*Реал*Пермь</a>
+    </footer>
+    
+</body>
+</html>
+{{end}}

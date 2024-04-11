@@ -1,0 +1,28 @@
+* {margin: 0;
+padding: 0;
+font-size: medium;
+font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+html, body{
+    height: 100%;
+}
+
+body{
+    line-height: 1.5;
+    background-color: white;
+    color: black;
+    overflow-y: scroll;
+}
+header, nav, footer, main {
+    padding: 2px calc((100% - 800px)/2) 0;
+}
+main{
+    /*background-image: url(/static/img/img1.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: auto;*/
+    font-size: large;
+    align-self: baseline;
+}
+ 
