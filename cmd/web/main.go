@@ -20,7 +20,7 @@ type application struct {
 func main() {
 
 	addr := flag.String("addr", ":4000", "HTTP network address (port number)")
-	dsn := flag.String("dsn", "file:main.db?cache=shared&mode=memory", "SQLite data source name")
+	dsn := flag.String("dsn", "file:main.db", "SQLite data source name")
 	flag.Parse()
 	f, err1 := os.OpenFile("./tmp/info.log", os.O_RDWR|os.O_CREATE, 0666)
 	if err1 != nil {
@@ -28,9 +28,8 @@ func main() {
 	}
 	defer f.Close()
 
-	//infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-
-	//errLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	// infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	// errLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 	errLog := log.New(f, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 	infoLog := log.New(f, "INFO\t", log.Ldate|log.Ltime)
 
@@ -65,5 +64,9 @@ func openDB(dsn string) (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	if err = db.Ping(); err != nil {
+		return nil, err
+	}
 	return db, nil
+
 }

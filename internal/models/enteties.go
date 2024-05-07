@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 type Person struct {
 	ID        int
 	FIRSTNAME string
@@ -25,6 +27,14 @@ func (p *Person) NewPerson(ID int,
 	pers.DATE = DATE
 
 	return pers
+}
+
+func (p *Person) GetShortName(person Person) string {
+	return fmt.Sprintf("%s %s %s", person.LASTNAME, cutFirstLetter(p.FIRSTNAME), cutFirstLetter(p.MIDNAME))
+}
+
+func cutFirstLetter(name string) string {
+	return fmt.Sprintf("%c.", name[0])
 }
 
 type Sportsman struct {

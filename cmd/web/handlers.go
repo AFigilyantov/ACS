@@ -1,10 +1,13 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
+
+	"tournamentsupport.com/internal/models"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -181,6 +184,109 @@ func (app *application) refereeAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write([]byte("View full list of REFEREE"))
+}
+
+// PERSON HANDLER FUNCTIONS
+func (app *application) personNew(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "POST" {
+		w.Header().Set("Allow", http.MethodPost)
+		app.clientError(w, http.StatusMethodNotAllowed)
+		return
+	}
+
+	FIRSTNAME := "Иван"
+	MIDNAME := "Владимирович"
+	LASTNAME := "Патраков"
+	DATE := "1978-10-19"
+	GENDER := "Муж"
+
+	id, err := app.repo.InsertPerson(FIRSTNAME, MIDNAME, LASTNAME, DATE, GENDER)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+	http.Redirect(w, r, fmt.Sprintf("/person/%d/view", id), http.StatusSeeOther)
+}
+
+func (app *application) personUpgrade(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "PUT" {
+		w.Header().Set("Allow", http.MethodPut)
+		app.clientError(w, http.StatusMethodNotAllowed)
+		return
+	}
+	w.Write([]byte("Change person data"))
+}
+
+func (app *application) personDelete(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "DELETE" {
+		w.Header().Set("Allow", http.MethodDelete)
+		app.clientError(w, http.StatusMethodNotAllowed)
+		return
+	}
+
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil || id < 1 {
+		app.notFound(w)
+		return
+	}
+
+	quantity, personId, errReq := app.repo.DeletePersonBy(id)
+
+	if errReq != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	fmt.Fprintf(w, "%d person(s) with id %d was deleted ", quantity, personId)
+
+}
+func (app *application) personView(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "GET" {
+		w.Header().Set("Allow", http.MethodGet)
+		app.clientError(w, http.StatusMethodNotAllowed)
+		return
+	}
+
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil || id < 1 {
+		app.notFound(w)
+		return
+	}
+
+	person, err := app.repo.GetPersonBy(id)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			app.notFound(w)
+		} else {
+			app.serverError(w, err)
+		}
+		return
+	}
+
+	fmt.Fprintf(w, "%+v", person)
+
+}
+
+func (app *application) personAll(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		w.Header().Set("Allow", http.MethodGet)
+		app.clientError(w, http.StatusMethodNotAllowed)
+		return
+	}
+	w.Write([]byte("View full list of person"))
+
+	people, err := app.repo.GetListOfPersons()
+
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	for _, person := range people {
+		fmt.Fprintf(w, "%+v\n", person)
+	}
 }
 
 // CATEGORY HANDLER FUNCTIONS

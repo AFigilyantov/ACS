@@ -26,6 +26,13 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("DELETE /referee/{id}/delete", app.refereeDelete)
 	mux.HandleFunc("GET /referee/all", app.refereeAll)
 
+	// PERSON ROUTES
+	mux.HandleFunc("POST /person/new", app.personNew)
+	mux.HandleFunc("GET /person/{id}/view", app.personView)
+	mux.HandleFunc("PUT /person/upgrade", app.personUpgrade)
+	mux.HandleFunc("DELETE /person/{id}/delete", app.personDelete)
+	mux.HandleFunc("GET /person/all", app.personAll)
+
 	// CATEGORY ROUTES
 	mux.HandleFunc("POST /category/new", app.categoryNew)
 	mux.HandleFunc("GET /category/{id}/view", app.categoryView)
@@ -34,18 +41,18 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /category/all", app.categoryAll)
 
 	// SPORTGRADE ROUTES
-	mux.HandleFunc("POST /sportGrade/new", app.sportGradeNew)
-	mux.HandleFunc("GET /sportGrade/{id}/view", app.sportGradeView)
-	mux.HandleFunc("PUT /sportGrade/upgrade", app.sportGradeUpgrade)
-	mux.HandleFunc("DELETE /sportGrade/{id}/delete", app.sportGradeDelete)
-	mux.HandleFunc("GET /sportGrade/all", app.sportGradeAll)
+	mux.HandleFunc("POST /sportgrade/new", app.sportGradeNew)
+	mux.HandleFunc("GET /sportgrade/{id}/view", app.sportGradeView)
+	mux.HandleFunc("PUT /sportgrade/upgrade", app.sportGradeUpgrade)
+	mux.HandleFunc("DELETE /sportgrade/{id}/delete", app.sportGradeDelete)
+	mux.HandleFunc("GET /sportgrade/all", app.sportGradeAll)
 
 	// REFEREEGRADE ROUTES
-	mux.HandleFunc("POST /refereeGrade/new", app.refereeGradeNew)
-	mux.HandleFunc("GET /refereeGrade/{id}/view", app.refereeGradeView)
-	mux.HandleFunc("PUT /refereeGrade/upgrade", app.refereeGradeUpgrade)
-	mux.HandleFunc("DELETE /refereeGrade/{id}/delete", app.refereeGradeDelete)
-	mux.HandleFunc("GET /refereeGrade/all", app.refereeGradeAll)
+	mux.HandleFunc("POST /refereegrade/new", app.refereeGradeNew)
+	mux.HandleFunc("GET /refereegrade/{id}/view", app.refereeGradeView)
+	mux.HandleFunc("PUT /refereegrade/upgrade", app.refereeGradeUpgrade)
+	mux.HandleFunc("DELETE /refereegrade/{id}/delete", app.refereeGradeDelete)
+	mux.HandleFunc("GET /refereegrade/all", app.refereeGradeAll)
 
 	// REFEREEROLE ROUTES
 	mux.HandleFunc("POST /refereerole/new", app.refereeRoleNew)
